@@ -27,6 +27,7 @@ public class MainActivity extends Activity implements BeaconConsumer {
     private BeaconManager manager;
     private Region region;
     private TextView mTextView;
+    private  StringBuilder stringBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +114,7 @@ public class MainActivity extends Activity implements BeaconConsumer {
      * start looking for beacons.
      */
     private void startScanning() {
-        final StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder = new StringBuilder();
 
         manager.setRangeNotifier(new RangeNotifier() {
             @Override
@@ -129,12 +130,7 @@ public class MainActivity extends Activity implements BeaconConsumer {
                                 + "\nDistance: " + beacon.getDistance()
                                 + "\n -------- \n";
                         stringBuilder.append(newBeacon);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mTextView.setText(stringBuilder);
-                            }
-                        });
+                        runOnUiThread(updateTextView);
                     }
                 }
             }
@@ -158,4 +154,14 @@ public class MainActivity extends Activity implements BeaconConsumer {
             e.getStackTrace();
         }
     }
+
+    /**
+     * Runnable that updates the text view on the UI thread
+     */
+    Runnable updateTextView = new Runnable() {
+        @Override
+        public void run() {
+            mTextView.setText(stringBuilder);
+        }
+    };
 }
