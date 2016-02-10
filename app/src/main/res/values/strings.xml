@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BeaconWear</string>
+    <string name="scanning">Scanning beacons…</string>
+</resources>
